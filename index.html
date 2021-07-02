@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>Memory game
+  <head>
     <meta charset="UTF-8" />
-    <title>Memory Game!</title>
+    <title>Memory Game</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Memory Game!</h1>
-    <div id="game">
+    <header>
+      <h1>Memory Game!</h1>
+      <div>
+        <!-- <span id="score">Score:</span><p id ="scoreBoard"></p> -->
+        <p id="scoreBoard"> Score: <span id=score></span></p>
+      </div>
+      <button id="buttonLogo">
+        <a id="restart-game" href="index.html">Play Again?</a>
+      </button>
+    </header>
+    <div class="container">
+      <button class = "start">Press to Start</button>
+    </div>
+    
+    <div id="game" >
     <script src="script.js"></script>
   </body>
 </html>
