@@ -1,7 +1,62 @@
- #game div {
-  border: 1px solid black;
-  width: 15%;
-  height: 200px;
-  margin: 10px;
-  display: inline-block;
-} 
+#game div {
+	border: 1px solid black;
+	width: 15%;
+	height: 200px;
+	margin: 10px;
+	display: inline-block;
+}
+
+body {
+	background-color: var(--off-white);
+	color: var(--dark);
+}
+
+header {
+	text-align: center;
+}
+
+h1 {
+	text-align: center;
+	margin: 2rem auto;
+}
+
+p {
+	display: inline-block;
+}
+#scoreBoard {
+	display: none;
+}
+p,
+#score {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+#buttonLogo {
+	display: none;
+	margin: 0 auto 1rem auto;
+}
+
+.container {
+	text-align: center;
+}
+
+.start {
+	font-size: 25px;
+}
+button {
+	padding: 5px 10px;
+	margin-left: 20px;
+	background-color: blue;
+	border-radius: 7px;
+	text-align: center;
+}
+
+p,
+#restart-game {
+	text-decoration: none;
+	font-size: 1.25rem;
+}
+
+#restart-game {
+	color: black;
+}
