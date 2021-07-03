@@ -26,11 +26,18 @@ p {
 #scoreBoard {
 	display: none;
 }
+
 p,
 #score {
 	font-size: 1.5rem;
 	font-weight: bold;
 }
+
+#bestScoreBoard {
+	font-size: 25px;
+	padding-bottom: 10px;
+}
+
 #buttonLogo {
 	display: none;
 	margin: 0 auto 1rem auto;
