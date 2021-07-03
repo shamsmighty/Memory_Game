@@ -1,4 +1,6 @@
+const lowestScore = document.getElementById("bestScore");
 const gameContainer = document.getElementById("game");
+lowestScore.textContent = JSON.parse(localStorage.getItem("score"));
 
 let hasFirstClickedCard = false;
 let firstCard = null;
@@ -105,6 +107,7 @@ function handleCardClick(event) {
 		secondCard.classList.remove("firstCardColor");
 		setTimeout(function () {
 			if (cardsFlipped === COLORS.length) alert("Game over!");
+			localStorage.setItem("score", JSON.stringify(score.innerHTML));
 			document.getElementById("buttonLogo").style.pointerEvents = "auto";
 		}, 1000);
 	} else {
