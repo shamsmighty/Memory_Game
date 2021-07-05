@@ -1,7 +1,8 @@
 const lowestScore = document.getElementById("bestScore");
+const score = document.getElementById("score");
 const gameContainer = document.getElementById("game");
 lowestScore.textContent = JSON.parse(localStorage.getItem("score"));
-
+console.log("here", lowestScore.textContent);
 let hasFirstClickedCard = false;
 let firstCard = null;
 let secondCard = null;
@@ -106,12 +107,14 @@ function handleCardClick(event) {
 		firstCard.classList.remove("firstCardColor");
 		secondCard.classList.remove("firstCardColor");
 		setTimeout(function () {
-			if (cardsFlipped === COLORS.length) alert("Game over!");
-			if (
-				JSON.parse(localStorage.getItem("score")) <
-				JSON.stringify(score.innerHTML)
-			)
-				localStorage.setItem("score", JSON.stringify(score.innerHTML));
+			if (cardsFlipped === COLORS.length) {
+				// Storing the score in Local Storage only when the score is less then localStorage.
+				if (
+					parseInt(score.innerHTML) < JSON.parse(localStorage.getItem("score"))
+				)
+					localStorage.setItem("score", JSON.stringify(score.innerHTML));
+				alert("Game over!");
+			}
 			document.getElementById("buttonLogo").style.pointerEvents = "auto";
 		}, 1000);
 	} else {
