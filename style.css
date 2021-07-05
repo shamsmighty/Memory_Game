@@ -5,65 +5,24 @@
 	margin: 10px;
 	display: inline-block;
 }
-
-body {
-	background-color: var(--off-white);
-	color: var(--dark);
+.box {
+	border: none;
+	border-radius: 15px;
+	width: 150px;
+	height: 150px;
+	margin: 10px;
+	position: relative;
 }
 
-header {
-	text-align: center;
+.frontImage,
+.backImage {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 15px;
+	backface-visibility: hidden;
 }
 
-h1 {
-	text-align: center;
-	margin: 2rem auto;
-}
-
-p {
-	display: inline-block;
-}
-#scoreBoard {
-	display: none;
-}
-
-p,
-#score {
-	font-size: 1.5rem;
-	font-weight: bold;
-}
-
-#bestScoreBoard {
-	font-size: 25px;
-	padding-bottom: 10px;
-}
-
-#buttonLogo {
-	display: none;
-	margin: 0 auto 1rem auto;
-}
-
-.container {
-	text-align: center;
-}
-
-.start {
-	font-size: 25px;
-}
-button {
-	padding: 5px 10px;
-	margin-left: 20px;
-	background-color: blue;
-	border-radius: 7px;
-	text-align: center;
-}
-
-p,
-#restart-game {
-	text-decoration: none;
-	font-size: 1.25rem;
-}
-
-#restart-game {
-	color: black;
+.backImage {
+	transform: rotateY(180deg);
 }
