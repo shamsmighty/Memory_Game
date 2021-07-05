@@ -107,7 +107,11 @@ function handleCardClick(event) {
 		secondCard.classList.remove("firstCardColor");
 		setTimeout(function () {
 			if (cardsFlipped === COLORS.length) alert("Game over!");
-			localStorage.setItem("score", JSON.stringify(score.innerHTML));
+			if (
+				JSON.parse(localStorage.getItem("score")) <
+				JSON.stringify(score.innerHTML)
+			)
+				localStorage.setItem("score", JSON.stringify(score.innerHTML));
 			document.getElementById("buttonLogo").style.pointerEvents = "auto";
 		}, 1000);
 	} else {
