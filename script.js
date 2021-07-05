@@ -2,7 +2,6 @@ const lowestScore = document.getElementById("bestScore");
 const score = document.getElementById("score");
 const gameContainer = document.getElementById("game");
 lowestScore.textContent = JSON.parse(localStorage.getItem("score"));
-console.log("here", lowestScore.textContent);
 let hasFirstClickedCard = false;
 let firstCard = null;
 let secondCard = null;
