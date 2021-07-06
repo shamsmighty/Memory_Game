@@ -1,31 +1,39 @@
 const gameContainer = document.getElementById("game");
+const select = document.getElementById("menu");
+const reset = document.getElementById("reset");
+const highScore = document.getElementById("highscore");
+highScore.textContent = JSON.parse(localStorage.getItem("score"));
 
-const COLORS = [
-	"1.gif",
-	"1.gif",
-	"2.gif",
-	"2.gif",
-	"3.gif",
-	"3.gif",
-	"4.gif",
-	"4.gif",
-	"5.gif",
-	"5.gif",
-	"6.gif",
-	"6.gif",
-	"7.gif",
-	"7.gif",
-	"8.gif",
-	"8.gif",
-	"9.gif",
-	"9.gif",
-	"10.gif",
-	"10.gif",
-	"11.gif",
-	"11.gif",
-	"12.gif",
-	"12.gif",
+const gifs = [
+	"./gifs/1.gif",
+	"./gifs/1.gif",
+	"./gifs/2.gif",
+	"./gifs/2.gif",
+	"./gifs/3.gif",
+	"./gifs/3.gif",
+	"./gifs/4.gif",
+	"./gifs/4.gif",
+	"./gifs/5.gif",
+	"./gifs/5.gif",
+	"./gifs/6.gif",
+	"./gifs/6.gif",
+	"./gifs/7.gif",
+	"./gifs/7.gif",
+	"./gifs/8.gif",
+	"./gifs/8.gif",
+	"./gifs/9.gif",
+	"./gifs/9.gif",
+	"./gifs/10.gif",
+	"./gifs/10.gif",
+	"./gifs/11.gif",
+	"./gifs/11.gif",
+	"./gifs/12.gif",
+	"./gifs/12.gif",
 ];
+
+let shuffledGifs = [];
+
+//let COLORS=[];
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -50,42 +58,182 @@ function shuffle(array) {
 	return array;
 }
 
-let shuffledColors = shuffle(COLORS);
-
-// this function loops over the array of colors
-// it creates a new div and gives it a class with the value of the color
-// it also adds an event listener for a click for each card
-function createDivsForColors(colorArray) {
-	for (let color of colorArray) {
-		// create a new div
+/**
+ * Shuffle Gifs
+ */
+function createDivGifs(gifArray) {
+	for (let gifs of gifArray) {
 		const newDiv = document.createElement("div");
 
-		// give it a class attribute for the value we are looping over
-		newDiv.classList.add("box");
-
-		const frontImage = document.createElement("img");
-		frontImage.src = "./img/javascript-seeklogo.com.svg";
-		frontImage.classList.add("frontImage");
-
-		const backImage = document.createElement("img");
-		backImage.src = `./gifs/${color}`;
-		backImage.classList.add("backImage");
-		newDiv.appendChild(frontImage);
-		newDiv.appendChild(backImage);
-
-		// call a function handleCardClick when a div is clicked on
+		newDiv.classList.add(gifs);
+		const imgDiv = document.createElement("img");
+		newDiv.appendChild(imgDiv);
 		newDiv.addEventListener("click", handleCardClick);
-
-		// append the div to the element with an id of game
 		gameContainer.append(newDiv);
 	}
 }
 
+let hasFlippedCard = false;
+let firstClick, secondClick;
+let lockBoard = false;
+let numberOfMatchedDiv = 0;
+let currentScore = 0;
+
 // TODO: Implement this function!
 function handleCardClick(event) {
 	// you can use event.target to see which element was clicked
-	console.log("you clicked", event.target);
+
+	if (lockBoard) return;
+	if (!hasFlippedCard) {
+		if (event.target.children[0].src == undefined) return;
+		hasFlippedCard = true;
+		firstClick = event.target.children[0];
+
+		//change background to color in className
+		//console.log(event);
+		//event.target.children[0].style.width='100%';
+		//console.log(event.target.children);
+		event.target.children[0].src = event.target.className;
+		event.target.children[0].style.width = "100%";
+
+		firstClick.style.display = "initial";
+
+		//prevent double click on same div
+		firstClick.parentNode.removeEventListener("click", handleCardClick);
+		firstClick.removeEventListener("click", handleCardClick);
+
+		//current score increment
+		currentScore += 1;
+		score.innerText = currentScore;
+
+		//Reset button implementation
+		reset.addEventListener("click", () => {
+			location.reload();
+		});
+	} else {
+		hasFlippedCard = false;
+		secondClick = event.target.children[0];
+
+		//change background to color in className
+		//event.target.style.backgroundColor = event.target.className;
+		event.target.children[0].style.width = "100%";
+		event.target.children[0].src = event.target.className;
+
+		secondClick.style.display = "initial";
+
+		//prevent double click on same div
+		secondClick.removeEventListener("click", handleCardClick);
+
+		checkMatch();
+		if (numberOfMatchedDiv == shuffledGifs.length) {
+			highScoreCheck();
+			highScore.innerHTML = localStorage.getItem("highScore");
+			popUpMessage("Game Over and Click Anywhere!!!!!");
+			reset.addEventListener("click", () => {
+				location.reload();
+			});
+		}
+	}
 }
 
-// when the DOM loads
-createDivsForColors(shuffledColors);
+/**
+ * checkMatch() will make background white and add eventListeners back to firstClick and SecondClick
+ */
+function checkMatch() {
+	if (secondClick.parentNode.className != firstClick.parentNode.className) {
+		lockBoard = true;
+
+		setTimeout(() => {
+			firstClick.style.display = "none";
+			secondClick.style.display = "none";
+
+			firstClick.addEventListener("click", handleCardClick);
+			firstClick.parentElement.addEventListener("click", handleCardClick);
+
+			secondClick.parentElement.addEventListener("click", handleCardClick);
+
+			secondClick.addEventListener("click", handleCardClick);
+			lockBoard = false;
+		}, 1000);
+	} else {
+		numberOfMatchedDiv += 2;
+		currentScore = currentScore + 1;
+		score.innerText = currentScore;
+	}
+}
+
+/**
+ * generate function will addListener to select element
+ */
+function generate() {
+	highScore.innerHTML = localStorage.getItem("highScore");
+	select.addEventListener("change", runEvent);
+}
+
+function runEvent(e) {
+	if (e.target.value.toLowerCase() == "easy") {
+		shuffledGifs = shuffle(easy());
+		removeAllChildNodes(gameContainer);
+		createDivGifs(shuffledGifs);
+	} else if (e.target.value.toLowerCase() == "medium") {
+		shuffledGifs = shuffle(medium());
+		removeAllChildNodes(gameContainer);
+		createDivGifs(shuffledGifs);
+	} else {
+		shuffledGifs = shuffle(hard());
+		removeAllChildNodes(gameContainer);
+		createDivGifs(shuffledGifs);
+	}
+}
+//pop us message function
+function popUpMessage(message) {
+	document.querySelector("#popUp-info p").innerText = message;
+	document.querySelector("#popUp").style.display = "block";
+	window.addEventListener("click", (event) => {
+		if (event.target == document.querySelector("#popUp")) {
+			document.querySelector("#popUp").style.display = "none";
+		}
+	});
+}
+
+/**
+ * check and compute highScore.
+ */
+function highScoreCheck() {
+	console.log(typeof JSON.stringify(currentScore));
+	if (
+		localStorage.getItem("highScore") == undefined ||
+		localStorage.getItem("highScore") == 0
+	) {
+		localStorage.setItem("highScore", JSON.stringify(currentScore));
+	} else if (currentScore < localStorage.getItem("highScore")) {
+		console.log(JSON.parse(localStorage.getItem("highScore")));
+		localStorage.setItem("highScore", JSON.stringify(currentScore));
+	}
+}
+
+function easy() {
+	return gifs.filter((card, index) => {
+		return index < 12;
+	});
+}
+
+function medium() {
+	return gifs.filter((card, index) => {
+		return index < 16;
+	});
+}
+
+function hard() {
+	return gifs.filter((card, index) => {
+		return index < 24;
+	});
+}
+
+function removeAllChildNodes(parent) {
+	while (parent.firstChild) {
+		parent.removeChild(parent.firstChild);
+	}
+}
+
+generate();
