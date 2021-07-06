@@ -5,24 +5,60 @@
 	margin: 10px;
 	display: inline-block;
 }
-.box {
-	border: none;
-	border-radius: 15px;
-	width: 150px;
-	height: 150px;
-	margin: 10px;
-	position: relative;
+
+img {
+	height: 100%;
+	overflow: hidden;
+}
+body {
+	background-color: whitesmoke;
 }
 
-.frontImage,
-.backImage {
-	position: absolute;
+#popUp {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	text-align: center;
+	font-size: 20px;
 	width: 100%;
 	height: 100%;
-	border-radius: 15px;
-	backface-visibility: hidden;
+	background-color: rgba(255, 255, 255, 0.5);
+
+	align-items: center;
+	padding-top: 100px;
 }
 
-.backImage {
-	transform: rotateY(180deg);
+#popUp-info {
+	background-color: goldenrod;
+	opacity: 1;
+	height: 10vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+h1 {
+	text-align: center;
+	color: #4caf50;
+	font-size: 50px;
+}
+
+.score,
+.highscore {
+	text-align: center;
+	font-size: 25px;
+}
+
+.dropDown {
+	padding-top: 10px;
+	display: flex;
+	justify-content: center;
+	color: indigo;
+}
+
+#reset {
+	background-color: lawngreen;
+	border-radius: 4px;
 }
