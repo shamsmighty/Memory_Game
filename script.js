@@ -1,7 +1,7 @@
 const lowestScore = document.getElementById("bestScore");
 const gameContainer = document.getElementById("game");
 lowestScore.textContent = JSON.parse(localStorage.getItem("score"));
-
+const colorArr = [];
 let hasFirstClickedCard = false;
 let firstCard = null;
 let secondCard = null;
@@ -76,8 +76,10 @@ function handleCardClick(event) {
 
 	// if the card has been clicked, nothing will happen
 	if (event.target.classList.contains("firstCardColor")) return;
-
-	score.innerHTML = parseInt(score.innerHTML) + 1;
+	if (!colorArr.includes(event.target.className)) {
+		score.innerHTML = parseInt(score.innerHTML) + 1;
+	}
+	//score.innerHTML = parseInt(score.innerHTML) + 1;
 	//change background color of card
 	let color = event.target.className;
 	event.target.style.backgroundColor = color;
@@ -87,7 +89,7 @@ function handleCardClick(event) {
 
 	//creating variable holding the total number of cards clicked (with class name firstCardColor)
 	let clickCount = document.querySelectorAll("div .firstCardColor").length;
-	//console.log(clickCount);
+	// console.log(clickCount);
 
 	//define firstCard and secondCard
 	if (!hasFirstClickedCard) {
@@ -105,12 +107,12 @@ function handleCardClick(event) {
 		cardsFlipped += 2;
 		firstCard.classList.remove("firstCardColor");
 		secondCard.classList.remove("firstCardColor");
+		colorArr.push(firstCard.className);
 		setTimeout(function () {
-			if (cardsFlipped === COLORS.length) {
-				if (
-					parseInt(score.innerHTML) < JSON.parse(localStorage.getItem("score"))
-				)
-					localStorage.setItem("score", JSON.stringify(score.innerHTML));
+			//if the color size is equal to 5 then end the game.
+			if (colorArr.length === COLORS.length / 2) {
+				if (parseInt(score.innerHTML) < parseInt(localStorage.getItem("score")))
+					localStorage.setItem("score", score.innerHTML);
 				alert("Game over!");
 			}
 			document.getElementById("buttonLogo").style.pointerEvents = "auto";
