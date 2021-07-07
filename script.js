@@ -2,7 +2,7 @@ const gameContainer = document.getElementById("game");
 const select = document.getElementById("menu");
 const reset = document.getElementById("reset");
 const highScore = document.getElementById("highscore");
-highScore.textContent = JSON.parse(localStorage.getItem("score"));
+highScore.textContent = parseInt(localStorage.getItem("score"));
 
 const gifs = [
 	"./gifs/1.gif",
@@ -33,7 +33,6 @@ const gifs = [
 
 let shuffledGifs = [];
 
-//let COLORS=[];
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -67,6 +66,7 @@ function createDivGifs(gifArray) {
 
 		newDiv.classList.add(gifs);
 		const imgDiv = document.createElement("img");
+
 		newDiv.appendChild(imgDiv);
 		newDiv.addEventListener("click", handleCardClick);
 		gameContainer.append(newDiv);
@@ -84,15 +84,16 @@ function handleCardClick(event) {
 	// you can use event.target to see which element was clicked
 
 	if (lockBoard) return;
+
+	//current score increment
+	currentScore += 1;
+	score.innerText = currentScore;
+
 	if (!hasFlippedCard) {
 		if (event.target.children[0].src == undefined) return;
 		hasFlippedCard = true;
 		firstClick = event.target.children[0];
 
-		//change background to color in className
-		//console.log(event);
-		//event.target.children[0].style.width='100%';
-		//console.log(event.target.children);
 		event.target.children[0].src = event.target.className;
 		event.target.children[0].style.width = "100%";
 
@@ -102,10 +103,6 @@ function handleCardClick(event) {
 		firstClick.parentNode.removeEventListener("click", handleCardClick);
 		firstClick.removeEventListener("click", handleCardClick);
 
-		//current score increment
-		currentScore += 1;
-		score.innerText = currentScore;
-
 		//Reset button implementation
 		reset.addEventListener("click", () => {
 			location.reload();
@@ -114,8 +111,6 @@ function handleCardClick(event) {
 		hasFlippedCard = false;
 		secondClick = event.target.children[0];
 
-		//change background to color in className
-		//event.target.style.backgroundColor = event.target.className;
 		event.target.children[0].style.width = "100%";
 		event.target.children[0].src = event.target.className;
 
@@ -157,8 +152,6 @@ function checkMatch() {
 		}, 1000);
 	} else {
 		numberOfMatchedDiv += 2;
-		currentScore = currentScore + 1;
-		score.innerText = currentScore;
 	}
 }
 
@@ -200,14 +193,12 @@ function popUpMessage(message) {
  * check and compute highScore.
  */
 function highScoreCheck() {
-	console.log(typeof JSON.stringify(currentScore));
 	if (
 		localStorage.getItem("highScore") == undefined ||
 		localStorage.getItem("highScore") == 0
 	) {
 		localStorage.setItem("highScore", JSON.stringify(currentScore));
 	} else if (currentScore < localStorage.getItem("highScore")) {
-		console.log(JSON.parse(localStorage.getItem("highScore")));
 		localStorage.setItem("highScore", JSON.stringify(currentScore));
 	}
 }
