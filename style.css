@@ -1,5 +1,5 @@
 #game div {
-	border: 1px solid black;
+	border: 1px solid white;
 	width: 15%;
 	height: 200px;
 	margin: 10px;
@@ -12,6 +12,8 @@ img {
 }
 body {
 	background-color: whitesmoke;
+	font-family: sans-serif;
+	background-image: url("./img/memory_game_bgIMG.jpg");
 }
 
 #popUp {
@@ -49,6 +51,7 @@ h1 {
 .highscore {
 	text-align: center;
 	font-size: 25px;
+	color: chartreuse;
 }
 
 .dropDown {
