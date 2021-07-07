@@ -33,7 +33,6 @@ const gifs = [
 
 let shuffledGifs = [];
 
-
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want ot research more
@@ -110,13 +109,14 @@ function handleCardClick(event) {
 	} else {
 		hasFlippedCard = false;
 		secondClick = event.target.children[0];
-
+		console.log(event.target.className);
 		event.target.children[0].style.width = "100%";
 		event.target.children[0].src = event.target.className;
 
 		secondClick.style.display = "initial";
 
 		//prevent double click on same div
+		secondClick.parentNode.removeEventListener("click", handleCardClick);
 		secondClick.removeEventListener("click", handleCardClick);
 
 		checkMatch();
