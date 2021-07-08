@@ -91,6 +91,11 @@ function handleCardClick(event) {
 	let clickCount = document.querySelectorAll("div .firstCardColor").length;
 	// console.log(clickCount);
 
+	//if localStorage is empty then setting it a value
+	if (!localStorage.getItem("score")) {
+		let count = 1000;
+		localStorage.setItem("score", count);
+	}
 	//define firstCard and secondCard
 	if (!hasFirstClickedCard) {
 		hasFirstClickedCard = true;
